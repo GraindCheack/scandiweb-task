@@ -15,7 +15,6 @@
 .slider {
   position: relative;
   user-select: none;
-  
   margin: 10px auto;
   overflow: hidden;
 }
@@ -82,12 +81,6 @@
 .slide {
   height: 100%;
   width: 34%;
-  text-align: center;
+  overflow: hidden;
   pointer-events: none;
-}
-
-.slide img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
 }
