@@ -1,15 +1,15 @@
 import React, { Component, createRef } from "react";
-import sliderData from './SlidesData'
 
 import "./Slider.css"
 import arrowRight from "./arrowRight.svg";
 import arrowLeft from "./arrowLeft.svg";
 
 class Slider extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { sliderContent } = props;
     this.state = {
-      slides: sliderData,
+      slides: sliderContent,
       page: 1,
       events: {},
     };
@@ -111,9 +111,9 @@ class Slider extends Component {
   }
 
   handleUp() {
-    if (this.isAnimating || !this.swipeOption.xStart || !this.swipeOption.xStart) return;
+    if (this.isAnimating || !this.swipeOption.xStart || !this.swipeOption.xEnd) return;
     this.inputRef.current.value = '';
-    this.sliderClearSwipeEvents();
+    this.clearSwipeEvents();
     this.selectPageBySwipe();
     this.sliderMainRef.current.style['cursor'] = '';
   }
