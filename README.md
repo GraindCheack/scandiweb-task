@@ -1,5 +1,6 @@
 # Slider
 This is custom slider.
+https://graindcheack.github.io/scandiweb-task/dist/
 
 ### Features
 
