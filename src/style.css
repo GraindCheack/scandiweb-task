@@ -1,0 +1,15 @@
+@media (min-width: 370px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
