@@ -5,6 +5,7 @@ export default [
     <p>My first slide</p>
   </div>
   `,
+  
   `
   <div style="text-align: center; background: #2F3134; color: white;">
     <h2 style="margin: 0; padding: 20px;">Slide-2</h2>
