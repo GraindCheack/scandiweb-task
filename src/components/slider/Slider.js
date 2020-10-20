@@ -79,6 +79,14 @@ class Slider extends Component {
     this.sliderMainRef.current.ontouchend = () => this.handleUp();
   }
 
+  clearSwipeEvents() {
+    this.sliderMainRef.current.onmousemove = undefined;
+    this.sliderMainRef.current.onmouseup = undefined;
+    this.sliderMainRef.current.onmouseout = undefined;
+    this.sliderMainRef.current.ontouchmove = undefined;
+    this.sliderMainRef.current.ontouchend = undefined;
+  }
+
   handleDown(coordX) {
     if (this.isAnimating) return;
     this.setSwipeEvents();
@@ -86,14 +94,6 @@ class Slider extends Component {
     this.actSlidesRef[0].current.style['z-index'] = '1';
     this.actSlidesRef[2].current.style['z-index'] = '1';
     this.swipeOption.xStart = coordX;
-  }
-
-  clearSwipeEvents() {
-    this.sliderMainRef.current.onmousemove = undefined;
-    this.sliderMainRef.current.onmouseup = undefined;
-    this.sliderMainRef.current.onmouseout = undefined;
-    this.sliderMainRef.current.ontouchmove = undefined;
-    this.sliderMainRef.current.ontouchend = undefined;
   }
 
   selectPageBySwipe() {
