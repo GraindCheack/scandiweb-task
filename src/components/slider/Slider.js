@@ -1,4 +1,5 @@
 import React, { Component, createRef } from "react";
+import Slide from './Slide'
 
 import "./Slider.css";
 
@@ -87,15 +88,6 @@ class Slider extends Component {
     this.sliderMainRef.current.ontouchend = undefined;
   }
 
-  handleDown(coordX) {
-    if (this.isAnimating) return;
-    this.setSwipeEvents();
-    this.sliderMainRef.current.style['cursor'] = 'grabbing';
-    this.actSlidesRef[0].current.style['z-index'] = '1';
-    this.actSlidesRef[2].current.style['z-index'] = '1';
-    this.swipeOption.xStart = coordX;
-  }
-
   selectPageBySwipe() {
     const diff = this.swipeOption.xStart - this.swipeOption.xEnd;
     if (diff < -100) this.actSlideChangePage(0);
@@ -107,6 +99,15 @@ class Slider extends Component {
       })
       setTimeout(() => this.actSlidesTransitionClear(), 300);
     }
+  }
+
+  handleDown(coordX) {
+    if (this.isAnimating) return;
+    this.setSwipeEvents();
+    this.sliderMainRef.current.style['cursor'] = 'grabbing';
+    this.actSlidesRef[0].current.style['z-index'] = '1';
+    this.actSlidesRef[2].current.style['z-index'] = '1';
+    this.swipeOption.xStart = coordX;
   }
 
   handleUp() {
@@ -155,7 +156,7 @@ class Slider extends Component {
           onTouchStart={e => this.handleDown(e.targetTouches[0].clientX)}
           className="slider-main">
           {this.getSlidesImg().map((item, index) => {
-            return <div className="slide" key={`slide-${index}`} ref={this.actSlidesRef[index]} dangerouslySetInnerHTML={{ __html: item }}></div>
+            return <Slide key={`slide-${index}`} number={index} slideRef={() => this.actSlidesRef[index]} content={item} />
           })}
         </div>
       </div>
