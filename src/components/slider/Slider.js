@@ -108,6 +108,7 @@ class Slider extends Component {
     this.actSlidesRef[0].current.style['z-index'] = '1';
     this.actSlidesRef[2].current.style['z-index'] = '1';
     this.swipeOption.xStart = coordX;
+    this.swipeOption.xEnd = coordX;
   }
 
   handleUp() {
@@ -117,6 +118,8 @@ class Slider extends Component {
     this.clearSwipeEvents();
     this.selectPageBySwipe();
     this.sliderMainRef.current.style['cursor'] = '';
+    this.swipeOption.xStart = undefined;
+    this.swipeOption.xEnd = undefined;
   }
 
   handleMove(coordX) {
