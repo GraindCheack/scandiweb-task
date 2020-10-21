@@ -1,8 +1,7 @@
 import React, { Component, createRef } from "react";
+import Slide from './Slide'
 
-import "./Slider.css"
-import arrowRight from "./arrowRight.svg";
-import arrowLeft from "./arrowLeft.svg";
+import "./Slider.css";
 
 class Slider extends Component {
   constructor(props) {
@@ -76,22 +75,15 @@ class Slider extends Component {
   setSwipeEvents() {
     this.sliderMainRef.current.onmousemove = (e) => this.handleMove(e.pageX);
     this.sliderMainRef.current.onmouseup = () => this.handleUp();
+    this.sliderMainRef.current.onmouseout = () => this.sliderMainRef.current.onmouseup();
     this.sliderMainRef.current.ontouchmove = (e) => this.handleMove(e.targetTouches[0].clientX);
     this.sliderMainRef.current.ontouchend = () => this.handleUp();
-  }
-
-  handleDown(coordX) {
-    if (this.isAnimating) return;
-    this.setSwipeEvents();
-    this.sliderMainRef.current.style['cursor'] = 'grabbing';
-    this.actSlidesRef[0].current.style['z-index'] = '1';
-    this.actSlidesRef[2].current.style['z-index'] = '1';
-    this.swipeOption.xStart = coordX;
   }
 
   clearSwipeEvents() {
     this.sliderMainRef.current.onmousemove = undefined;
     this.sliderMainRef.current.onmouseup = undefined;
+    this.sliderMainRef.current.onmouseout = undefined;
     this.sliderMainRef.current.ontouchmove = undefined;
     this.sliderMainRef.current.ontouchend = undefined;
   }
@@ -105,17 +97,29 @@ class Slider extends Component {
         item.current.style['transform'] = '';
         item.current.style['transitionDuration'] = '.3s';
       })
-      this.isAnimating = true;
       setTimeout(() => this.actSlidesTransitionClear(), 300);
     }
+  }
+
+  handleDown(coordX) {
+    if (this.isAnimating) return;
+    this.setSwipeEvents();
+    this.sliderMainRef.current.style['cursor'] = 'grabbing';
+    this.actSlidesRef[0].current.style['z-index'] = '1';
+    this.actSlidesRef[2].current.style['z-index'] = '1';
+    this.swipeOption.xStart = coordX;
+    this.swipeOption.xEnd = coordX;
   }
 
   handleUp() {
     if (this.isAnimating || !this.swipeOption.xStart || !this.swipeOption.xEnd) return;
     this.inputRef.current.value = '';
+    this.isAnimating = true;
     this.clearSwipeEvents();
     this.selectPageBySwipe();
     this.sliderMainRef.current.style['cursor'] = '';
+    this.swipeOption.xStart = undefined;
+    this.swipeOption.xEnd = undefined;
   }
 
   handleMove(coordX) {
@@ -145,25 +149,17 @@ class Slider extends Component {
     return (
       <div className="slider">
         <div className="slider-nav">
-          <div className="nav-arrow" onClick={e => this.handleChangePageLeft()}>
-            <img src={arrowLeft} alt="Left" />
-          </div>
-
           <input type="number" min="1"
             max={this.state.slides.length}
             onChange={e => this.setPage(e.target.value)}
             placeholder={this.state.page} ref={this.inputRef} />
-
-          <div className="nav-arrow" onClick={e => this.handleChangePageRight()}>
-            <img src={arrowRight} alt="Right" />
-          </div>
         </div>
         <div ref={this.sliderMainRef}
           onMouseDown={e => this.handleDown(e.pageX)}
           onTouchStart={e => this.handleDown(e.targetTouches[0].clientX)}
           className="slider-main">
           {this.getSlidesImg().map((item, index) => {
-            return <div className="slide" key={`slide-${index}`} ref={this.actSlidesRef[index]} dangerouslySetInnerHTML={{ __html: item }}></div>
+            return <Slide key={`slide-${index}`} number={index} slideRef={() => this.actSlidesRef[index]} content={item} />
           })}
         </div>
       </div>
