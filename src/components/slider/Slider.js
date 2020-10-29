@@ -19,22 +19,25 @@ class Slider extends Component {
     this.isAnimating = false;
   }
 
-  getSlidesImg() {
-    const page = this.state.page - 1;
-    const slidesLength = this.state.slides.length;
+  getSlides() {
+    const { page, slides } = this.state
     return [
-      page !== 0 ? this.state.slides[page - 1] : this.state.slides[slidesLength - 1],
-      this.state.slides[page],
-      page !== this.state.slides.length - 1 ? this.state.slides[page + 1] : this.state.slides[0]
+      page !== 1 ? slides[page - 2] : slides[slides.length - 1],
+      slides[page - 1],
+      page !== slides.length ? slides[page] : slides[0]
     ];
   }
 
   setPage(value) {
     if (value === '') return;
     value = Number(value);
-    value < 1 ? this.setState({ page: this.state.slides.length }) :
-      (value > this.state.slides.length) ? this.setState({ page: 1 }) :
-        this.setState({ page: value });
+    if (value < 1) {
+      this.setState({ page: this.state.slides.length });
+    }
+    else if (value > this.state.slides.length) {
+      this.setState({ page: 1 });
+    }
+    else this.setState({ page: value });
   }
 
   actSlidesTransitionClear() {
@@ -74,7 +77,8 @@ class Slider extends Component {
   }
 
   selectPageBySwipe() {
-    const diff = this.swipeOption.xStart - this.swipeOption.xEnd;
+    const { xStart, xEnd } = this.swipeOption
+    const diff = xStart - xEnd;
     if (diff < -100) this.actSlideChangePage(0);
     else if (diff > 100) this.actSlideChangePage(2);
     else {
@@ -135,7 +139,7 @@ class Slider extends Component {
           onMouseDown={e => this.handleDown(e.pageX)}
           onTouchStart={e => this.handleDown(e.targetTouches[0].clientX)}
           className="slider-main">
-          {this.getSlidesImg().map((item, index) => {
+          {this.getSlides().map((item, index) => {
             return <Slide key={`slide-${index}`} number={index} slideRef={() => this.actSlidesRef[index]} content={item} />
           })}
         </div>
