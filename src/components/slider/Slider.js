@@ -37,21 +37,6 @@ class Slider extends Component {
         this.setState({ page: value });
   }
 
-  sliderMainTransitionClear(page) {
-    this.sliderMainRef.current.style['transitionDuration'] = '';
-    this.setPage(page);
-    this.sliderMainRef.current.style['left'] = '-100%';
-    this.isAnimating = false;
-  }
-
-  pageStep(conf) {
-    this.inputRef.current.value = '';
-    this.isAnimating = true;
-    this.sliderMainRef.current.style['transitionDuration'] = '.5s';
-    this.sliderMainRef.current.style['left'] = conf.left;
-    setTimeout(() => this.sliderMainTransitionClear(this.state.page + conf.page), 500);
-  }
-
   actSlidesTransitionClear() {
     this.actSlidesRef.forEach(item => item.current.style['transitionDuration'] = '');
     this.isAnimating = false;
@@ -135,14 +120,6 @@ class Slider extends Component {
       this.actSlidesRef[1].current.style['transform'] = `translate(${-diff / 2}px, 0)`;
       this.actSlidesRef[0].current.style['transform'] = '';
     };
-  }
-
-  handleChangePageLeft() {
-    if (!this.isAnimating) this.pageStep({ left: "0", page: -1 });
-  }
-
-  handleChangePageRight() {
-    if (!this.isAnimating) this.pageStep({ left: "-200%", page: 1 });
   }
 
   render() {
