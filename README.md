@@ -23,6 +23,6 @@ cd <FOLDER_NAME_HERE>
 ```
 - Run installing Packages
 ```bash
-npm install
+npm ci
 ```
 - Run `npm start` to intialize
