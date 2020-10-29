@@ -140,7 +140,11 @@ class Slider extends Component {
           onTouchStart={e => this.handleDown(e.targetTouches[0].clientX)}
           className="slider-main">
           {this.getSlides().map((item, index) => {
-            return <Slide key={`slide-${index}`} number={index} slideRef={() => this.actSlidesRef[index]} content={item} />
+            return (
+              <Slide key={`slide-${index}`} number={index} slideRef={() => this.actSlidesRef[index]}>
+                {item}
+              </Slide>
+            );
           })}
         </div>
       </div>
